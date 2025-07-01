@@ -57,7 +57,7 @@ export const typeDefs = `#graphql
       email: String!
       content: String!
       createdAt: String!
-      postId: Int!
+      postId: Int
     }
 
   type Activity {
@@ -73,6 +73,7 @@ export const typeDefs = `#graphql
     userStats: UserStats
     analytics(timeRange: String): Analytics
     notifications(userId: Int): [Notification!]!
+    comments(postId: Int): [Comment!]!
     activities(limit: Int): [Activity!]!
     user(id: ID!): User
   }
