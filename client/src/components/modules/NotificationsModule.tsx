@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
+
+
+
 
 const typeIcons = {
   info: Info,
@@ -31,15 +35,24 @@ const iconColors = {
 
 export default function NotificationsModule() {
   const dispatch = useDispatch<AppDispatch>();
+  const { toast } = useToast();
+
   const { notifications, isLoading, unreadCount } = useSelector((state: RootState) => state.notifications);
 
   const handleMarkAsRead = (id: number) => {
     dispatch(markNotificationAsRead(id));
   };
 
-  const handleMarkAllAsRead = () => {
-    dispatch(markAllNotificationsAsRead());
-  };
+const handleMarkAllAsRead = () => {
+  dispatch(markAllNotificationsAsRead()).then(() => {
+    toast({
+      title: "Notifications cleared",
+      description: "All your alerts are now marked as read.",
+      duration: 4000,
+    });
+  });
+};
+
 
   const handleLoadMore = () => {
     console.log("Loading more notifications...");
@@ -50,7 +63,7 @@ export default function NotificationsModule() {
       <Card className="module-card">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Recent Notifications</CardTitle>
+            <CardTitle>Recent Notifications 123</CardTitle>
             <Skeleton className="w-24 h-6" />
           </div>
         </CardHeader>
@@ -76,7 +89,7 @@ export default function NotificationsModule() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <CardTitle>Recent Notifications</CardTitle>
+            <CardTitle>Recent Notifications 123</CardTitle>
             {unreadCount > 0 && (
               <Badge variant="destructive">{unreadCount}</Badge>
             )}

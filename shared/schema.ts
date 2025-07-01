@@ -39,6 +39,16 @@ export const analytics = pgTable("analytics", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const comments = pgTable("comments", {
+  id: serial("id").primaryKey(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  postId: integer("post_id").notNull(),
+});
+
 export const notifications = pgTable("notifications", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -76,6 +86,11 @@ export const insertAnalyticsSchema = createInsertSchema(analytics).omit({
   updatedAt: true,
 });
 
+export const insertComment = createInsertSchema(comments).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertNotificationSchema = createInsertSchema(notifications).omit({
   id: true,
   createdAt: true,
@@ -91,6 +106,8 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Metric = typeof metrics.$inferSelect;
 export type InsertMetric = z.infer<typeof insertMetricSchema>;
 export type UserStats = typeof userStats.$inferSelect;
+export type Comment = typeof comments.$inferSelect;
+export type InsertComment = z.infer<typeof insertComment>;
 export type InsertUserStats = z.infer<typeof insertUserStatsSchema>;
 export type Analytics = typeof analytics.$inferSelect;
 export type InsertAnalytics = z.infer<typeof insertAnalyticsSchema>;

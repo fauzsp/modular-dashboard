@@ -1,8 +1,9 @@
 import { 
-  users, metrics, userStats, analytics, notifications, activities,
+  users, metrics, userStats, analytics, notifications, activities, comments,
   type User, type InsertUser, type Metric, type InsertMetric,
   type UserStats, type InsertUserStats, type Analytics, type InsertAnalytics,
-  type Notification, type InsertNotification, type Activity, type InsertActivity
+  type Notification, type InsertNotification, type Activity, type InsertActivity,
+  type Comment, type InsertComment,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -32,6 +33,10 @@ export interface IStorage {
   // Activities
   getActivities(limit?: number): Promise<Activity[]>;
   createActivity(activity: InsertActivity): Promise<Activity>;
+
+  // Comments
+  getComments(postId?: number): Promise<Comment[]>;
+  createComment(comment: InsertComment): Promise<Comment>;
 }
 
 export class MemStorage implements IStorage {
@@ -40,6 +45,7 @@ export class MemStorage implements IStorage {
   private userStats: UserStats | undefined = undefined;
   private analytics: Analytics | undefined = undefined;
   private notifications: Map<number, Notification> = new Map();
+  private comments: Map<number, Comment> = new Map();
   private activities: Map<number, Activity> = new Map();
   private currentUserId = 1;
   private currentMetricId = 1;
@@ -222,6 +228,10 @@ export class MemStorage implements IStorage {
 
   async getNotifications(userId?: number): Promise<Notification[]> {
     const allNotifications = Array.from(this.notifications.values());
+    allNotifications.forEach(notification => {
+      notification.isRead = false;
+      this.notifications.set(notification.id, notification);
+    });
     if (userId) {
       return allNotifications.filter(n => n.userId === userId);
     }
@@ -258,6 +268,25 @@ export class MemStorage implements IStorage {
     });
     return true;
   }
+
+  async getComments(postId?: number): Promise<Comment[]> {
+    const comments = Array.from(this.comments.values());
+    if (postId) {
+      return comments.filter(comment => comment.postId === postId);
+    }
+    return comments;
+  }
+
+  async createComment(comment: InsertComment): Promise<Comment> {
+    const newComment: Comment = {
+      ...comment,
+      id: this.comments.size + 1, 
+      createdAt: new Date(),
+    };
+    this.comments.set(newComment.id, newComment);
+    console.log("New comment created:", newComment);
+    return newComment;
+  } 
 
   async getActivities(limit: number = 10): Promise<Activity[]> {
     const activities = Array.from(this.activities.values())

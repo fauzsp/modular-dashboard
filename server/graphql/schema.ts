@@ -50,6 +50,16 @@ export const typeDefs = `#graphql
     createdAt: String!
   }
 
+    type Comment {
+      id: ID!
+      firstName: String!
+      lastName: String!
+      email: String!
+      content: String!
+      createdAt: String!
+      postId: Int!
+    }
+
   type Activity {
     id: ID!
     userId: Int!

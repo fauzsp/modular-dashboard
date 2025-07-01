@@ -8,6 +8,7 @@ import { apolloClient } from "./lib/apollo";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Dashboard from "@/pages/dashboard";
+import Overview from "@/pages/overview";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -15,7 +16,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Dashboard} />
       <Route path="/dashboard" component={Dashboard} />
-      <Route path="/overview" component={Dashboard} />
+      <Route path="/overview" component={Overview} />
       <Route path="/user-stats" component={Dashboard} />
       <Route path="/analytics" component={Dashboard} />
       <Route path="/notifications" component={Dashboard} />

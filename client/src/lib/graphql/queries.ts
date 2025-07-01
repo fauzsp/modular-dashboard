@@ -14,6 +14,20 @@ export const GET_METRICS = gql`
   }
 `;
 
+export const GET_COMMENTS = gql`
+  query GetComments($postId: Int!) {
+    comments(postId: $postId) {
+      id
+      firstName
+      lastName
+      email
+      content
+      createdAt
+      postId
+    }
+  }
+`;
+
 export const GET_USER_STATS = gql`
   query GetUserStats {
     userStats {

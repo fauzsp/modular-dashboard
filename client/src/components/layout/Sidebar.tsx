@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "wouter";
 import { 
-  Home, Users, BarChart, Bell, Settings, 
+  Home, Users, BarChart, Bell, Settings,  
   ChartLine, LogOut 
 } from "lucide-react";
 import type { RootState, AppDispatch } from "@/store";
@@ -11,7 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navigationItems = [
-  { path: "/", label: "Overview", icon: Home },
+  { path: "/", label: "Dashboard", icon: Home },
+  { path: "/overview", label: "Overview", icon: Bell },
   { path: "/user-stats", label: "User Stats", icon: Users },
   { path: "/analytics", label: "Analytics", icon: BarChart },
   { path: "/notifications", label: "Notifications", icon: Bell },

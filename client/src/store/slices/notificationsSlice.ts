@@ -21,7 +21,8 @@ export const fetchNotifications = createAsyncThunk(
   async (userId?: number) => {
     const url = userId ? `/api/notifications?userId=${userId}` : '/api/notifications';
     const response = await apiRequest('GET', url);
-    return await response.json();
+    const value = await response.json();
+    return value;
   }
 );
 
@@ -78,10 +79,12 @@ const notificationsSlice = createSlice({
         }
       })
       .addCase(markAllNotificationsAsRead.fulfilled, (state) => {
-        state.notifications.forEach(notification => {
-          notification.isRead = true;
-        });
+        // state.notifications.forEach(notification => {
+        //   notification.isRead = true;
+        // });
+        state.notifications.splice(0, state.notifications.length); 
         state.unreadCount = 0;
+        console.log("All notifications marked as read",  JSON.parse(JSON.stringify(state.notifications)));
       });
   },
 });

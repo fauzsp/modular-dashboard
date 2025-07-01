@@ -3,6 +3,7 @@ import dashboardReducer from './slices/dashboardSlice';
 import userStatsReducer from './slices/userStatsSlice';
 import analyticsReducer from './slices/analyticsSlice';
 import notificationsReducer from './slices/notificationsSlice';
+import commentsReducer from './slices/commentSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     userStats: userStatsReducer,
     analytics: analyticsReducer,
     notifications: notificationsReducer,
+    comments: commentsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

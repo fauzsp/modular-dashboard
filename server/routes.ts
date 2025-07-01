@@ -90,10 +90,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/notifications", async (req, res) => {
     try {
       const userId = req.query.userId ? parseInt(req.query.userId as string) : undefined;
+     console.log("userId notifications:", userId);
       const notifications = await storage.getNotifications(userId);
       res.json(notifications);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  });
+
+  // Get Comments
+  app.get("/api/comments", async (req, res) => {
+    try {
+      const postId = req.query.postId ? parseInt(req.query.postId as string) : undefined;
+      const comments = await storage.getComments(postId);
+      res.json(comments);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch comments" });
+    }
+  });
+
+  app.post("/api/comments", async (req, res) => {
+    try {
+      const comment = await storage.createComment(req.body);
+      res.status(201).json(comment);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create comment" });
     }
   });
 
